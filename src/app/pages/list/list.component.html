@@ -1,0 +1,50 @@
+<nz-flex nzJustify="space-between" nzAlign="center" class="mt-5 mb-5">
+    <h2 class="mb-0">To Do list</h2>
+    <button nz-button nzType="primary" nzSize="default" (click)="onAdd()">
+        Add Task <span nz-icon nzType="plus" nzTheme="outline"></span>
+    </button>
+</nz-flex>
+<nz-table
+    #rowSelectionTable
+    nzShowPagination
+    nzShowSizeChanger
+    [nzData]="(listItems$ | async)!"
+    [nzLoading]="listLoading$ | async"
+>
+    <thead>
+    <tr>
+        <th>Status</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Created at</th>
+        <th>Updated at</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        @for (data of rowSelectionTable.data; track data.id) {
+            <tr>
+                <td
+                    [nzChecked]="!!data.completed"
+                    [nzLabel]="data.title"
+                    (nzCheckedChange)="onItemChecked(data, $event)"
+                ></td>
+                <td>{{ data.title }}</td>
+                <td>{{ data.description }}</td>
+                <td>{{ data.created_at | date: dateFormat }}</td>
+                <td>{{ data.updated_at | date: dateFormat }}</td>
+                <td>
+                    <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" nzType="link" nzSize="large" nzPlacement="bottomRight">
+                        <span nz-icon nzType="setting" nzTheme="outline"></span>
+                    </button>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu>
+                            <li nz-menu-item (click)="onEdit(data.id)">Edit <span nz-icon nzType="edit" nzTheme="outline"></span></li>
+                            <li nz-menu-item nzDanger (click)="onItemDelete(data.id)">Delete <span nz-icon nzType="delete" nzTheme="outline"></span></li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </td>
+            </tr>
+        }
+    </tbody>
+</nz-table>

@@ -1,0 +1,9 @@
+<button nz-button nz-dropdown [nzDropdownMenu]="menu" nzType="link" nzSize="large" nzPlacement="bottomRight">
+    <span nz-icon nzType="user" nzTheme="outline"></span>
+</button>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu *ngIf="{userLoggedIn: userLoggedIn$ | async} as data">
+        <li nz-menu-item *ngIf="!data.userLoggedIn" (click)="logIn()">Log In</li>
+        <li nz-menu-item nzDanger *ngIf="data.userLoggedIn" (click)="logOut()">Log Out</li>
+    </ul>
+</nz-dropdown-menu>

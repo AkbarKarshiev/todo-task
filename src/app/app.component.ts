@@ -1,10 +1,24 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Actions, ofActionSuccessful } from '@ngxs/store';
+import { RouterNavigation } from '@ngxs/router-plugin';
+import { MetaService } from './core/meta/services/meta.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  template: `<router-outlet></router-outlet>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'todo-task';
+  constructor(private actions$: Actions, private metaService: MetaService) {
+    this.actions$.pipe(ofActionSuccessful(RouterNavigation)).subscribe((data) => {
+      // @ts-ignore
+      const { meta } = data.routerState?.data ?? {};
+      this.metaService.update(
+        {
+          url: data.event.url,
+          ...meta
+        }
+      );
+    });
+  }
 }

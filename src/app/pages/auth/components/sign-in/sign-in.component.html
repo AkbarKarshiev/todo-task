@@ -1,0 +1,38 @@
+<form nz-form [formGroup]="signInForm" (ngSubmit)="submit()">
+    <h2 class="text-center text-primary">Sign In</h2>
+    <nz-form-item>
+        <nz-form-control [nzErrorTip]="emailErrorTpl" nzHasFeedback>
+            <nz-input-group nzPrefixIcon="mail">
+                <input
+                    type="text"
+                    nz-input
+                    [formControlName]="formFieldKeys.Email"
+                    placeholder="Email" />
+                <ng-template #emailErrorTpl let-control>
+                    @if (control.errors?.['required']) {
+                        Required
+                    }
+                    @if (control.errors?.['email']) {
+                        Invalid email format
+                    }
+                </ng-template>
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control nzErrorTip="Required" nzHasFeedback>
+            <nz-input-group nzPrefixIcon="lock">
+                <input
+                    type="password"
+                    nz-input
+                    [formControlName]="formFieldKeys.Password"
+                    autocomplete="on"
+                    placeholder="Password" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <button nz-button class="w-100 mb-4" [nzLoading]="loading$ | async" type="submit" nzType="primary">Log in</button>
+    <div nz-flex nzJustify="flex-end">
+        <span>Or <a [routerLink]="signUpLink | path">register now!</a></span>
+    </div>
+</form>

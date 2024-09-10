@@ -1,0 +1,8 @@
+<h1>The World's best {{ brand }}!</h1>
+<ng-container *ngIf="{ loggedIn: userLoggedIn$ | async } as data">
+    <p *ngIf="!data.loggedIn">Please log in to start working.</p>
+    <div>
+        <button nz-button nzType="primary" nzSize="large" *ngIf="!data.loggedIn" (click)="logIn()">Sign In</button>
+        <button nz-button nzType="primary" nzSize="large" *ngIf="data.loggedIn" (click)="goToListPage()">Start Working</button>
+    </div>
+</ng-container>

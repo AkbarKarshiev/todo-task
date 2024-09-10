@@ -1,0 +1,35 @@
+<nz-spin [nzSpinning]="loading$ | async">
+    <form nz-form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+        <nz-form-item class="mb-4">
+            <nz-form-control [nzErrorTip]="titleErrorTpl">
+                <nz-input-group>
+                    <input
+                        type="text"
+                        nz-input
+                        [formControlName]="formFieldKeys.Title"
+                        placeholder="Title"/>
+                </nz-input-group>
+                <ng-template #titleErrorTpl let-control>
+                    @if (control.errors?.['required']) {
+                        Required
+                    }
+                    @if (control.errors?.['titleExists']) {
+                        Title already exists
+                    }
+                </ng-template>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <nz-input-group>
+                    <input
+                        type="text"
+                        nz-input
+                        [formControlName]="formFieldKeys.Description"
+                        placeholder="Description"/>
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <button nz-button class="w-100" type="submit" nzType="primary">Save</button>
+    </form>
+</nz-spin>
